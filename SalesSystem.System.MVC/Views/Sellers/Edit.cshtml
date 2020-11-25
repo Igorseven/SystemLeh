@@ -1,0 +1,35 @@
+﻿@model SalesSystem.System.MVC.Models.ViewModels.SellerViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="panel panel-heading">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+</div>
+
+<div class="panel panel-body">
+    <h4>Seller</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <partial name="PartialViews/_seller_create_edit" />
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-success" />
+                    <a asp-controller="Sellers" asp-action="Index" class="btn btn-warning">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

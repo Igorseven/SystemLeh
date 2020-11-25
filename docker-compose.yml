@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  salessystem.system.mvc:
+    image: ${DOCKER_REGISTRY-}salessystemsystemmvc
+    build:
+      context: .
+      dockerfile: SalesSystem.System.MVC/Dockerfile
