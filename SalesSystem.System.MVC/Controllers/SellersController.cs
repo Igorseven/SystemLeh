@@ -148,7 +148,8 @@ namespace SalesSystem.System.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var getContextData = await _context.Sellers.FindAsync(id);
+            var getContextData = await _context.Sellers
+                .FirstOrDefaultAsync(m => m.Id == id);
             var deleteSeller = _context.Sellers.Remove(getContextData);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

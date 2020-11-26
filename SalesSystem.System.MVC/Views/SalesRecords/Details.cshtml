@@ -1,36 +1,27 @@
-﻿@model SalesSystem.System.MVC.Entities.SalesRecord
+﻿@model SalesSystem.System.MVC.Models.ViewModels.SalesRecordViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Sale Details";
 }
 
-<h1>Details</h1>
+<div class="row">
+    <div class="panel panel-heading">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+</div>
 
-<div>
-    <h4>SalesRecord</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RegistrationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RegistrationDate)
-        </dd>
-    </dl>
+<div class="panel panel-body">
+    <div>
+        <h4>SalesRecord</h4>
+        <hr />
+
+        <partial name="PartialViews/_sales_delete_details" />
+
+    </div>
+    <div>
+        <a asp-controller="SalesRecords" asp-action="Edit" asp-route-id="@Model.Id"
+           class="btn btn-success">Edit</a>
+        <a asp-controller="SalesRecords" asp-action="Index" class="btn btn-warning">Back</a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SalesSystem.System.MVC.Data.ORM;
 using SalesSystem.System.MVC.Entities;
+using SalesSystem.System.MVC.Models.ViewModels;
 
 namespace SalesSystem.System.MVC.Controllers
 {
@@ -25,25 +26,29 @@ namespace SalesSystem.System.MVC.Controllers
         // GET: SalesRecords
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SalesRecords.ToListAsync());
+            var getContextData = await _context.SalesRecords.ToListAsync();
+            var SalesEntityForViewModel = _mapper.Map<IEnumerable<SalesRecord>, IEnumerable<SalesRecordViewModel>>(getContextData);
+            return View(SalesEntityForViewModel);
         }
 
         // GET: SalesRecords/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var salesRecord = await _context.SalesRecords
+            var getContextData = await _context.SalesRecords
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (salesRecord == null)
+
+            var SalesEntityForViewModel = _mapper.Map<SalesRecord, SalesRecordViewModel>(getContextData);
+            if (getContextData == null)
             {
                 return NotFound();
             }
 
-            return View(salesRecord);
+            return View(SalesEntityForViewModel);
         }
 
         // GET: SalesRecords/Create
@@ -52,46 +57,42 @@ namespace SalesSystem.System.MVC.Controllers
             return View();
         }
 
-        // POST: SalesRecords/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Amount,Status,Id,RegistrationDate")] SalesRecord salesRecord)
+        public async Task<IActionResult> Create([Bind("Amount,Status,Id,RegistrationDate")] SalesRecordViewModel salesRecordViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(salesRecord);
+                var viewModelForSalesEntity = _mapper.Map<SalesRecordViewModel, SalesRecord>(salesRecordViewModel);
+                var addSales = _context.Add(viewModelForSalesEntity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(salesRecord);
+            return View(salesRecordViewModel);
         }
 
         // GET: SalesRecords/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var salesRecord = await _context.SalesRecords.FindAsync(id);
-            if (salesRecord == null)
+            var getContextData = await _context.SalesRecords.FirstOrDefaultAsync(prop => prop.Id == id);
+            var SalesEntityForViewModel = _mapper.Map<SalesRecord, SalesRecordViewModel>(getContextData);
+            if (getContextData == null)
             {
                 return NotFound();
             }
-            return View(salesRecord);
+            return View(SalesEntityForViewModel);
         }
 
-        // POST: SalesRecords/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Amount,Status,Id,RegistrationDate")] SalesRecord salesRecord)
+        public async Task<IActionResult> Edit(int id, [Bind("Amount,Status,Id,RegistrationDate")] SalesRecordViewModel salesRecordViewModel)
         {
-            if (id != salesRecord.Id)
+            if (id != salesRecordViewModel.Id)
             {
                 return NotFound();
             }
@@ -100,12 +101,13 @@ namespace SalesSystem.System.MVC.Controllers
             {
                 try
                 {
-                    _context.Update(salesRecord);
+                    var viewModelForSalesEntity = _mapper.Map<SalesRecordViewModel, SalesRecord>(salesRecordViewModel);
+                    var updateSales = _context.Update(viewModelForSalesEntity);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SalesRecordExists(salesRecord.Id))
+                    if (!SalesRecordExists(salesRecordViewModel.Id))
                     {
                         return NotFound();
                     }
@@ -116,25 +118,27 @@ namespace SalesSystem.System.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(salesRecord);
+            return View(salesRecordViewModel);
         }
 
         // GET: SalesRecords/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var salesRecord = await _context.SalesRecords
+            var getContextData = await _context.SalesRecords
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (salesRecord == null)
+            var salesEntityForViewModel = _mapper.Map<SalesRecord, SalesRecordViewModel>(getContextData);
+
+            if (getContextData == null)
             {
                 return NotFound();
             }
 
-            return View(salesRecord);
+            return View(salesEntityForViewModel);
         }
 
         // POST: SalesRecords/Delete/5
@@ -142,8 +146,9 @@ namespace SalesSystem.System.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var salesRecord = await _context.SalesRecords.FindAsync(id);
-            _context.SalesRecords.Remove(salesRecord);
+            var getContextData = await _context.SalesRecords
+                .FirstOrDefaultAsync(prop => prop.Id == id);
+            var deleteSales = _context.SalesRecords.Remove(getContextData);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

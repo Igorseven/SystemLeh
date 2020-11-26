@@ -47,7 +47,7 @@ namespace SalesSystem.System.MVC.Data.Seeding
                     Email = "Igortest@gmail.com",
                     BirthDate = new DateTime(1993, 04, 22),
                     BaseSalary = 15000,
-                    Department = services,
+                    Department = services
                 };
 
                 Seller seller2 = new Seller
@@ -56,8 +56,7 @@ namespace SalesSystem.System.MVC.Data.Seeding
                     Email = "Elontest@gmail.com",
                     BirthDate = new DateTime(1990, 11, 12),
                     BaseSalary = 6900,
-                    Department = equipment,
-
+                    Department = equipment
                 };
 
                 Seller seller3 = new Seller
@@ -66,10 +65,9 @@ namespace SalesSystem.System.MVC.Data.Seeding
                     Email = "Jhontest@gmail.com",
                     BirthDate = new DateTime(1987, 01, 10),
                     BaseSalary = 8000,
-                    Department = preventive,
+                    Department = preventive
                 };
 
-                //Sales >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 SaleStatus peding = SaleStatus.Pending;
                 SaleStatus billed = SaleStatus.Billed;
                 SaleStatus canceled = SaleStatus.Canceled;
@@ -99,7 +97,6 @@ namespace SalesSystem.System.MVC.Data.Seeding
                 _systemContext.Sellers.AddRangeAsync(seller1, seller2, seller3);
                 _systemContext.SalesRecords.AddRangeAsync(sales1, sales2, sales3);
                 _systemContext.SaveChangesAsync();
-
             }
         }
     }

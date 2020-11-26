@@ -1,41 +1,32 @@
-﻿@model SalesSystem.System.MVC.Entities.SalesRecord
+﻿@model SalesSystem.System.MVC.Models.ViewModels.SalesRecordViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Register new Sale";
 }
 
-<h1>Create</h1>
-
-<h4>SalesRecord</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RegistrationDate" class="control-label"></label>
-                <input asp-for="RegistrationDate" class="form-control" />
-                <span asp-validation-for="RegistrationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="panel panel-heading">
+        <h3>@ViewData["Title"]</h3>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="panel panel-body">
+    <h4>SalesRecord</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <partial name="PartialViews/_sales_create_edit" />
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <a asp-controller="SalesRecords" asp-action="Index" class="btn btn-warning">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

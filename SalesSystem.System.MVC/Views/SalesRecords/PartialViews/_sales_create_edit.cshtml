@@ -1,0 +1,15 @@
+﻿@model SalesSystem.System.MVC.Models.ViewModels.SalesRecordViewModel
+@using SalesSystem.System.MVC.Enums
+
+<div class="form-group">
+    <label asp-for="Amount" class="control-label"></label>
+    <input asp-for="Amount" class="form-control" />
+    <span asp-validation-for="Amount" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Status" class="control-label"></label>
+    <select asp-for="Status" asp-items="@Html.GetEnumSelectList<SaleStatus>()" class="form-control">
+        <option selected="selected" value="">Selected</option>
+    </select>
+    <span asp-validation-for="Status" class="text-danger"></span>
+</div>
